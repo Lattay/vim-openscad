@@ -75,6 +75,18 @@ hi def link openscadString			    String
 hi def link openscadTransform			Statement
 hi def link openscadCommentTodo			Todo
 
+
+" some keywords from relativity.scad
+" https://github.com/davidson16807/relativity.scad
+syn keyword openscadRelativityPrimitiveSolid rod box ball
+syn keyword openscadRelativityTransform rotated mirrored translated hulled differed intersected align
+syn keyword openscadRelativityStatement show hide attach
+
+hi def link openscadRelativityPrimitiveSolid		Keyword
+hi def link openscadRelativityTransform       		Statement
+hi def link openscadRelativityStatement       		Statement
+
+
 " Blatantly stolen from vim74\syntax\c.vim
 "when wanted, highlight trailing white space
 if exists("openscad_space_errors")
