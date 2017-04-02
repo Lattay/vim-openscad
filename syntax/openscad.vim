@@ -18,13 +18,13 @@ syn match openscadFunction /\<\h\w*\>/ contained display
 syn keyword openscadModuleDef module nextgroup=openscadModule skipwhite skipempty
 syn match openscadModule /\<\h\w*\>/ contained display
 
-syn keyword openscadStatement echo assign let
+syn keyword openscadStatement echo assign let assert
 syn keyword openscadConditional if else
 syn keyword openscadRepeat for intersection_for
 syn keyword openscadInclude include use import
 syn keyword openscadCsgKeyword union difference intersection render intersection_for
-syn keyword openscadTransform scale rotate translate mirror multmatrix color minkowski hull projection linear_extrude rotate_extrude offset attach
-syn keyword openscadPrimitiveSolid cube sphere cylinder polyhedron surface cubea rcube rcubea cylindera rcylinder rcylindera
+syn keyword openscadTransform scale rotate translate mirror multmatrix color minkowski hull projection linear_extrude rotate_extrude offset attach position stack lineup orient size_align proj_extruder_axis all_axes
+syn keyword openscadPrimitiveSolid cube sphere cylinder polyhedron surface cubea rcube rcubea spherea cylindera rcylinder rcylindera
 syn keyword openscadPrimitive2D square circle polygon import_dxf text
 syn keyword openscadPrimitiveImport import child children
 
