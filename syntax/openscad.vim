@@ -23,7 +23,7 @@ syn keyword openscadConditional if else
 syn keyword openscadRepeat for intersection_for
 syn keyword openscadInclude include use import
 syn keyword openscadCsgKeyword union difference intersection render intersection_for
-syn keyword openscadTransform scale rotate translate mirror multmatrix color minkowski hull projection linear_extrude rotate_extrude offset attach position stack lineup orient size_align proj_extruder_axis all_axes tx ty tz t
+syn keyword openscadTransform scale rotate translate mirror multmatrix color minkowski hull projection linear_extrude rotate_extrude offset attach position stack lineup orient size_align proj_extruder_axis all_axes tx ty tz t material rx ry rz r
 syn keyword openscadPrimitiveSolid cube sphere cylinder polyhedron surface cubea rcube rcubea spherea cylindera rcylinder rcylindera
 syn keyword openscadPrimitive2D square circle polygon import_dxf text
 syn keyword openscadPrimitiveImport import child children
