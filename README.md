@@ -15,11 +15,9 @@ This script has been published for some time on vim.org at:
 Installation
 ------------
 
-You can simply copy the ftdetect and syntax dirs to your .vim or vimfiles
-directory. The layout should also be fine for auto install if you use pathogen,
-vundle or some similar vim plugin system.
-
-The ftdetect file associates all .scad files with this plugin.
+The best solution to install this is to use a Vim package manager such as [vim-plug](https://github.com/junegunn/vim-plug).
+Add this to your vim-plug section:
+    Plug 'Lattay.vim-openscad', {'for': 'openscad'}
 
 License
 -------
