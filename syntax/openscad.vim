@@ -40,8 +40,9 @@ syn region openscadString start=/"/ skip=/\\"/ end=/"/
 syn keyword openscadBoolean true false
 
 syn keyword openscadCommentTodo TODO FIXME XXX contained display
-syn match openscadInlineComment ://.*$: contains=openscadCommentTodo
-syn region openscadBlockComment start=:/\*: end=:\*/: fold contains=openscadCommentTodo
+syn cluster openscadComment add=@Spell add=openscadCommentTodo
+syn match openscadInlineComment ://.*$: contains=@openscadComment
+syn region openscadBlockComment start=:/\*: end=:\*/: fold contains=openscadComment
 
 syn region openscadBlock start="{" end="}" transparent fold
 syn region openscadVector start="\[" end="\]" transparent fold
