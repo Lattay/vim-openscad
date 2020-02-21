@@ -1,15 +1,16 @@
+scriptencoding utf-8
 " File: openscad.vim
 " Author: Keith Smiley / Øystien Krog
 " Description: The indent file for openscad.vim, derived from from swift.vim!
 " Last Modified: December 05, 2014
 "
-if exists("b:did_indent")
+if exists('b:did_indent')
   finish
 endif
 let b:did_indent = 1
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpo_save = &cpoptions
+set cpoptions&vim
 
 setlocal nosmartindent
 setlocal indentkeys-=e
@@ -31,26 +32,26 @@ function! s:NumberOfMatches(char, string, index)
 endfunction
 
 function! s:SyntaxNameAtPosition(line, column)
-  return synIDattr(synID(a:line, a:column, 0), "name")
+  return synIDattr(synID(a:line, a:column, 0), 'name')
 endfunction
 
 function! s:SyntaxName()
-  return s:SyntaxNameAtPosition(line("."), col("."))
+  return s:SyntaxNameAtPosition(line('.'), col('.'))
 endfunction
 
 function! s:IsExcludedFromIndentAtPosition(line, column)
   let name = s:SyntaxNameAtPosition(a:line, a:column)
-  return name ==# "OpenscadComment" || name ==# "OpenscadString"
+  return name ==# 'OpenscadComment' || name ==# 'OpenscadString'
 endfunction
 
 function! s:IsExcludedFromIndent()
-  return s:SyntaxName() ==# "OpenscadComment" || s:SyntaxName() ==# "OpenscadString"
+  return s:SyntaxName() ==# 'OpenscadComment' || s:SyntaxName() ==# 'OpenscadString'
 endfunction
 
 function! s:IsCommentLine(lnum)
     return synIDattr(synID(a:lnum,
-          \     match(getline(a:lnum), "\S") + 1, 0), "name")
-          \ ==# "OpenscadComment"
+          \     match(getline(a:lnum), '\S') + 1, 0), 'name')
+          \ ==# 'OpenscadComment'
 endfunction
 
 function! OpenscadIndent(...)
@@ -66,34 +67,34 @@ function! OpenscadIndent(...)
   let cindent = cindent(clnum)
   let previousIndent = indent(previousNum)
 
-  let numOpenParens = s:NumberOfMatches("(", previous, previousNum)
-  let numCloseParens = s:NumberOfMatches(")", previous, previousNum)
-  let numOpenBrackets = s:NumberOfMatches("{", previous, previousNum)
-  let numCloseBrackets = s:NumberOfMatches("}", previous, previousNum)
+  let numOpenParens = s:NumberOfMatches('(', previous, previousNum)
+  let numCloseParens = s:NumberOfMatches(')', previous, previousNum)
+  let numOpenBrackets = s:NumberOfMatches('{', previous, previousNum)
+  let numCloseBrackets = s:NumberOfMatches('}', previous, previousNum)
 
-  let currentOpenBrackets = s:NumberOfMatches("{", line, clnum)
-  let currentCloseBrackets = s:NumberOfMatches("}", line, clnum)
+  let currentOpenBrackets = s:NumberOfMatches('{', line, clnum)
+  let currentCloseBrackets = s:NumberOfMatches('}', line, clnum)
 
-  let numOpenSquare = s:NumberOfMatches("[", previous, previousNum)
-  let numCloseSquare = s:NumberOfMatches("]", previous, previousNum)
+  let numOpenSquare = s:NumberOfMatches('[', previous, previousNum)
+  let numCloseSquare = s:NumberOfMatches(']', previous, previousNum)
 
-  let currentCloseSquare = s:NumberOfMatches("]", line, clnum)
+  let currentCloseSquare = s:NumberOfMatches(']', line, clnum)
   if numOpenSquare > numCloseSquare && currentCloseSquare < 1
     return previousIndent + shiftwidth()
   endif
 
-  if currentCloseSquare > 0 && line !~ '\v\[.*\]'
-    let column = col(".")
-    call cursor(line("."), 1)
-    let openingSquare = searchpair("\\[", "", "\\]", "bWn", "s:IsExcludedFromIndent()")
-    call cursor(line("."), column)
+  if currentCloseSquare > 0 && line !~# '\v\[.*\]'
+    let column = col('.')
+    call cursor(line('.'), 1)
+    let openingSquare = searchpair('\\[', '', '\\]', 'bWn', 's:IsExcludedFromIndent()')
+    call cursor(line('.'), column)
 
     if openingSquare == 0
       return -1
     endif
 
     " - Line starts with closing square, indent as opening square
-    if line =~ '\v^\s*]'
+    if line =~# '\v^\s*]'
       return indent(openingSquare)
     endif
 
@@ -101,20 +102,20 @@ function! OpenscadIndent(...)
     return indent(openingSquare) + shiftwidth()
   endif
 
-  if line =~ ":$"
-    let switch = search("switch", "bWn")
+  if line =~# ':$'
+    let switch = search('switch', 'bWn')
     return indent(switch)
-  elseif previous =~ ":$"
+  elseif previous =~# ':$'
     return previousIndent + shiftwidth()
   endif
 
   if numOpenParens == numCloseParens
     if numOpenBrackets > numCloseBrackets
-      if currentCloseBrackets > currentOpenBrackets || line =~ "\\v^\\s*}"
-        let column = col(".")
-        call cursor(line("."), 1)
-        let openingBracket = searchpair("{", "", "}", "bWn", "s:IsExcludedFromIndent()")
-        call cursor(line("."), column)
+      if currentCloseBrackets > currentOpenBrackets || line =~# '\\v^\\s*}'
+        let column = col('.')
+        call cursor(line('.'), 1)
+        let openingBracket = searchpair('{', '', '}', 'bWn', 's:IsExcludedFromIndent()')
+        call cursor(line('.'), column)
         if openingBracket == 0
           return -1
         else
@@ -123,30 +124,30 @@ function! OpenscadIndent(...)
       endif
 
       return previousIndent + shiftwidth()
-    elseif previous =~ "}.*{"
-      if line =~ "\\v^\\s*}"
+    elseif previous =~# '}.*{'
+      if line =~# '\\v^\\s*}'
         return previousIndent
       endif
 
       return previousIndent + shiftwidth()
-    elseif line =~ "}.*{"
-      let openingBracket = searchpair("{", "", "}", "bWn", "s:IsExcludedFromIndent()")
+    elseif line =~# '}.*{'
+      let openingBracket = searchpair('{', '', '}', 'bWn', 's:IsExcludedFromIndent()')
       return indent(openingBracket)
     elseif currentCloseBrackets > currentOpenBrackets
-      let column = col(".")
-      call cursor(line("."), 1)
-      let openingBracket = searchpair("{", "", "}", "bWn", "s:IsExcludedFromIndent()")
-      call cursor(line("."), column)
+      let column = col('.')
+      call cursor(line('.'), 1)
+      let openingBracket = searchpair('{', '', '}', 'bWn', 's:IsExcludedFromIndent()')
+      call cursor(line('.'), column)
 
       let bracketLine = getline(openingBracket)
 
-      let numOpenParensBracketLine = s:NumberOfMatches("(", bracketLine, openingBracket)
-      let numCloseParensBracketLine = s:NumberOfMatches(")", bracketLine, openingBracket)
+      let numOpenParensBracketLine = s:NumberOfMatches('(', bracketLine, openingBracket)
+      let numCloseParensBracketLine = s:NumberOfMatches(')', bracketLine, openingBracket)
       if numCloseParensBracketLine > numOpenParensBracketLine
-        let line = line(".")
-        let column = col(".")
+        let line = line('.')
+        let column = col('.')
         call cursor(openingParen, column)
-        let openingParen = searchpair("(", "", ")", "bWn", "s:IsExcludedFromIndent()")
+        let openingParen = searchpair('(', '', ')', 'bWn', 's:IsExcludedFromIndent()')
         call cursor(line, column)
         return indent(openingParen)
       endif
@@ -164,16 +165,16 @@ function! OpenscadIndent(...)
           return previousIndent + shiftwidth()
         endif
 
-        if line =~ "}.*{"
-          let openingBracket = searchpair("{", "", "}", "bWn", "s:IsExcludedFromIndent()")
+        if line =~# '}.*{'
+          let openingBracket = searchpair('{', '', '}', 'bWn', 's:IsExcludedFromIndent()')
           return indent(openingBracket)
         endif
 
         if numCloseParens > numOpenParens
-          let line = line(".")
-          let column = col(".")
+          let line = line('.')
+          let column = col('.')
           call cursor(line - 1, column)
-          let openingParen = searchpair("(", "", ")", "bWn", "s:IsExcludedFromIndent()")
+          let openingParen = searchpair('(', '', ')', 'bWn', 's:IsExcludedFromIndent()')
           call cursor(line, column)
           return indent(openingParen)
         endif
@@ -182,7 +183,7 @@ function! OpenscadIndent(...)
       endif
 
       if currentCloseBrackets > 0
-        let openingBracket = searchpair("{", "", "}", "bWn", "s:IsExcludedFromIndent()")
+        let openingBracket = searchpair('{', '', '}', 'bWn', 's:IsExcludedFromIndent()')
         return indent(openingBracket)
       endif
 
@@ -194,28 +195,28 @@ function! OpenscadIndent(...)
         return previousIndent + shiftwidth()
       endif
 
-      let previousParen = match(previous, "(")
+      let previousParen = match(previous, '(')
       return indent(previousParen) + shiftwidth()
     endif
 
     if numOpenBrackets > numCloseBrackets
-      let line = line(".")
-      let column = col(".")
+      let line = line('.')
+      let column = col('.')
       call cursor(previousNum, column)
-      let openingParen = searchpair("(", "", ")", "bWn", "s:IsExcludedFromIndent()")
+      let openingParen = searchpair('(', '', ')', 'bWn', 's:IsExcludedFromIndent()')
       call cursor(line, column)
       return indent(openingParen) + shiftwidth()
     endif
 
     " - Previous line has close then open braces, indent previous + 1 'sw'
-    if previous =~ "}.*{"
+    if previous =~# '}.*{'
       return previousIndent + shiftwidth()
     endif
 
-    let line = line(".")
-    let column = col(".")
+    let line = line('.')
+    let column = col('.')
     call cursor(previousNum, column)
-    let openingParen = searchpair("(", "", ")", "bWn", "s:IsExcludedFromIndent()")
+    let openingParen = searchpair('(', '', ')', 'bWn', 's:IsExcludedFromIndent()')
     call cursor(line, column)
 
     return indent(openingParen)
@@ -225,14 +226,14 @@ function! OpenscadIndent(...)
   if numOpenParens > 0
     let savePosition = getcurpos()
     " Must be at EOL because open paren has to be above (left of) the cursor
-    call cursor(previousNum, col("$"))
-    let previousParen = searchpair("(", "", ")", "bWn", "s:IsExcludedFromIndent()")
-    call setpos(".", savePosition)
+    call cursor(previousNum, col('$'))
+    let previousParen = searchpair('(', '', ')', 'bWn', 's:IsExcludedFromIndent()')
+    call setpos('.', savePosition)
     return indent(previousParen) + shiftwidth()
   endif
 
   return cindent
 endfunction
 
-let &cpo = s:cpo_save
+let &cpoptions = s:cpo_save
 unlet s:cpo_save

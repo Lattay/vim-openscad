@@ -1,17 +1,17 @@
 " Blatantly stolen from vim74\ftplugin\c.vim
 
 " Set 'formatoptions' to break comment lines but not other lines,
-" and insert the comment leader when hitting <CR> or using "o".
-setlocal fo-=t fo+=croql
+" and insert the comment leader when hitting <CR> or using 'o'.
+setlocal formatoptions-=t formatoptions+=croql
 
 " Set 'comments' to format dashed lists in comments.
 setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
 
 " Win32 can filter files in the browse dialog
-if (has("gui_win32") || has("gui_gtk")) && !exists("b:browsefilter")
-    let b:browsefilter = "OpenSCAD Source Files (*.scad)\t*.scad\n" .
-	  \ "All Files (*.*)\t*.*\n"
+if (has('gui_win32') || has('gui_gtk')) && !exists('b:browsefilter')
+    let b:browsefilter = 'OpenSCAD Source Files (*.scad)\t*.scad\n' .
+	  \ 'All Files (*.*)\t*.*\n'
 endif
 
 let s:dict_path=expand('<sfile>:h').'/keywords'
-let &cpt=&cpt.',k'.s:dict_path
+let &complete=&complete.',k'.s:dict_path

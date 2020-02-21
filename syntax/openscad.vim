@@ -3,9 +3,9 @@
 " Maintainer:   Sirtaj Singh Kang <sirtaj-vim@sirtaj.net>
 " Last Changed: 2013 March 05
 
-if version < 600
+if v:version < 600
     syntax clear
-elseif exists("b:current_syntax")
+elseif exists('b:current_syntax')
     finish
 endif
 
@@ -28,14 +28,14 @@ syn keyword openscadPrimitiveSolid cube sphere cylinder polyhedron surface cubea
 syn keyword openscadPrimitive2D square circle polygon import_dxf text
 syn keyword openscadPrimitiveImport import child children
 
-syn match openscadSpecialVariable "\$[a-zA-Z]\+\>" display
-syn match openscadModifier "^\s*[\*\!\#\%]" display
+syn match openscadSpecialVariable '\$[a-zA-Z]\+\>' display
+syn match openscadModifier '^\s*[\*\!\#\%]' display
 
-syn match openscadNumbers "\<\d\|\.\d" contains=openscadNumber display transparent
-syn match openscadNumber "\d\+" display contained 
-syn match openscadNumber "\.\d\+" display contained 
+syn match openscadNumbers '\<\d\|\.\d' contains=openscadNumber display transparent
+syn match openscadNumber '\d\+' display contained 
+syn match openscadNumber '\.\d\+' display contained 
 
-syn region openscadString start=/"/ skip=/\\"/ end=/"/
+syn region openscadString start=/'/ skip=/\\'/ end=/"/
 
 syn keyword openscadBoolean true false
 
@@ -44,8 +44,8 @@ syn cluster openscadComment add=@Spell add=openscadCommentTodo
 syn match openscadInlineComment ://.*$: contains=@openscadComment
 syn region openscadBlockComment start=:/\*: end=:\*/: fold contains=openscadComment
 
-syn region openscadBlock start="{" end="}" transparent fold
-syn region openscadVector start="\[" end="\]" transparent fold
+syn region openscadBlock start='{' end='}' transparent fold
+syn region openscadVector start='\[' end='\]' transparent fold
 
 syn keyword openscadBuiltin abs acos asin atan atan2 ceil cos exp floor ln log
 syn keyword openscadBuiltin lookup max min pow rands round sign sin sqrt tan
@@ -90,13 +90,13 @@ hi def link openscadRelativityStatement       		Statement
 
 " Blatantly stolen from vim74\syntax\c.vim
 "when wanted, highlight trailing white space
-if exists("openscad_space_errors")
-  if !exists("openscad_no_trail_space_error")
-    syn match	openscadSpaceError	display excludenl "\s\+$"
+if exists('openscad_space_errors')
+  if !exists('openscad_no_trail_space_error')
+    syn match	openscadSpaceError	display excludenl '\s\+$'
   endif
-  if !exists("openscad_no_tab_space_error")
-    syn match	openscadSpaceError	display " \+\t"me=e-1
+  if !exists('openscad_no_tab_space_error')
+    syn match	openscadSpaceError	display ' \+\t'me=e-1
   endif
 endif
 
-let b:current_syntax = "openscad"
+let b:current_syntax = 'openscad'
