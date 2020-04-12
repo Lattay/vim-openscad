@@ -17,7 +17,8 @@ Installation
 
 The best solution to install this is to use a Vim package manager such as [vim-plug](https://github.com/junegunn/vim-plug).
 Add this to your vim-plug section:
-    Plug 'Lattay.vim-openscad', {'for': 'openscad'}
+
+    Plug 'Lattay/vim-openscad', {'for': 'openscad'}
 
 License
 -------
